@@ -315,7 +315,7 @@ self.addEventListener('fetch', e => {
   // Login page
   if (req.url === '/login') {
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-    res.end(require('fs').readFileSync(__dirname + '/public/login.html'));
+    res.end(require('fs').readFileSync(__dirname + '/login.html'));
     return;
   }
 
@@ -329,7 +329,7 @@ self.addEventListener('fetch', e => {
   // Serve HTML app
   if (req.url === '/' || req.url === '/index.html') {
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-    res.end(require('fs').readFileSync(__dirname + '/public/index.html'));
+    res.end(require('fs').readFileSync(__dirname + '/index.html'));
     return;
   }
 

@@ -582,8 +582,8 @@ const HTML_CONTENT = `<!DOCTYPE html>
     <div class="role-card" id="cardB" onclick="selectRole('B')">
       <div class="role-icon">🌍</div>
       <div class="role-info">
-        <div class="role-name">Ξενόγλωσσος χρήστης</div>
-        <div class="role-desc" id="workerRoleDesc">Μιλάω τη γλώσσα μου</div>
+        <div class="role-name" id="workerRoleName">Foreign language user</div>
+        <div class="role-desc" id="workerRoleDesc">Select your language above</div>
       </div>
       <div class="role-check"></div>
     </div>
@@ -844,9 +844,8 @@ function setPair(pair) {
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.pair === pair));
   const cfg = PAIRS[pair];
   document.getElementById('workerRoleDesc').textContent = \`Μιλάω \${cfg.B.name} · Εισάγω κωδικό\`;
-  // If worker role is selected, translate setup UI to their language
+  // Only apply UI changes if worker role is active
   if (myRole === 'B') applyWorkerUI(pair);
-  else resetToGreekUI();
 }
 
 

@@ -846,74 +846,94 @@ function setPair(pair) {
   document.getElementById('workerRoleDesc').textContent = \`Μιλάω \${cfg.B.name} · Εισάγω κωδικό\`;
   // If worker role is selected, translate setup UI to their language
   if (myRole === 'B') applyWorkerUI(pair);
+  else resetToGreekUI();
+}
+
+
+function showEnglishSetup() {
+  // Show English first before language is chosen
+  const who = document.getElementById('whoAreYouTitle');
+  const conn = document.getElementById('connTypeTitle');
+  if (who) who.textContent = 'WHO ARE YOU?';
+  if (conn) conn.textContent = 'CONNECTION TYPE';
+
+  const wDesc = document.getElementById('workerRoleDesc');
+  if (wDesc) wDesc.textContent = 'I speak my language · Enter code';
+
+  const ht = document.getElementById('hostTitle');
+  const hs = document.getElementById('hostSub');
+  const jt = document.getElementById('joinTitle');
+  const js = document.getElementById('joinSub');
+  if (ht) ht.textContent = 'New conversation';
+  if (hs) hs.textContent = 'Create a code';
+  if (jt) jt.textContent = 'Connect';
+  if (js) js.textContent = 'I have a code';
+
+  const cl = document.querySelector('.join-label');
+  if (cl) cl.textContent = 'Enter code:';
+
+  const sb = document.getElementById('startBtn');
+  if (sb) sb.textContent = 'Connect';
 }
 
 function applyWorkerUI(pair) {
   const lang = PAIRS[pair].B.whisper;
-  const ui = UI_LABELS[lang] || UI_LABELS['el'];
-  const cfg = PAIRS[pair];
+  const ui = UI_LABELS[lang] || UI_LABELS['en'];
 
-  // Section title "ΠΟΙΟΣ ΕΙΣΑΙ;"
-  const whoEl = document.getElementById('whoAreYouTitle');
-  const connEl = document.getElementById('connTypeTitle');
-  if (whoEl) whoEl.textContent = ui.whoAreYou || 'ΠΟΙΟΣ ΕΙΣΑΙ;';
-  if (connEl) connEl.textContent = ui.connectionType || 'ΤΡΟΠΟΣ ΣΥΝΔΕΣΗΣ';
+  // Section titles
+  const who = document.getElementById('whoAreYouTitle');
+  const conn = document.getElementById('connTypeTitle');
+  if (who) who.textContent = ui.whoAreYou || 'WHO ARE YOU?';
+  if (conn) conn.textContent = ui.connectionType || 'CONNECTION TYPE';
 
-  // Worker role card desc
-  const workerDesc = document.getElementById('workerRoleDesc');
-  if (workerDesc) workerDesc.textContent = ui.workerDesc || \`Μιλάω \${cfg.B.name} · Εισάγω κωδικό\`;
-
-  // Greek role card - always stay Greek
-  const descA = document.getElementById('descA');
-  if (descA) descA.textContent = 'Μιλάω Ελληνικά';
+  // Worker card desc
+  const wDesc = document.getElementById('workerRoleDesc');
+  if (wDesc) wDesc.textContent = ui.workerDesc || ('I speak ' + PAIRS[pair].B.name + ' · Enter code');
 
   // Action cards
-  const actionJoin = document.querySelector('#actionJoin');
-  const actionHost = document.querySelector('#actionHost');
-  const joinTitleEl = document.getElementById('joinTitle');
-  const joinSubEl = document.getElementById('joinSub');
-  const hostTitleEl = document.getElementById('hostTitle');
-  const hostSubEl = document.getElementById('hostSub');
-  if (joinTitleEl) joinTitleEl.textContent = ui.joinLabel || 'Σύνδεση';
-  if (joinSubEl) joinSubEl.textContent = ui.joinSub || 'Έχω κωδικό';
-  if (hostTitleEl) hostTitleEl.textContent = ui.hostLabel || 'Νέα συνομιλία';
-  if (hostSubEl) hostSubEl.textContent = ui.hostSub || 'Δημιουργώ κωδικό';
+  const ht = document.getElementById('hostTitle');
+  const hs = document.getElementById('hostSub');
+  const jt = document.getElementById('joinTitle');
+  const js = document.getElementById('joinSub');
+  if (ht) ht.textContent = ui.hostLabel || 'New conversation';
+  if (hs) hs.textContent = ui.hostSub || 'Create a code';
+  if (jt) jt.textContent = ui.joinLabel || 'Connect';
+  if (js) js.textContent = ui.joinSub || 'I have a code';
+
+  // Code label
+  const cl = document.querySelector('.join-label');
+  if (cl) cl.textContent = ui.codeLabel || 'Enter code:';
 
   // Start button
-  const startBtn = document.getElementById('startBtn');
-  if (startBtn) startBtn.textContent = myAction === 'join'
-    ? (ui.connectBtn || 'Σύνδεση')
-    : (ui.createBtn || 'Δημιουργία');
-
-  // Code label & placeholder
-  const codeLabel = document.querySelector('.join-label');
-  if (codeLabel) codeLabel.textContent = ui.codeLabel || 'Εισάγετε τον κωδικό συνομιλίας:';
-  const codeIn = document.getElementById('joinCode');
-  if (codeIn) codeIn.placeholder = ui.codePlaceholder || '0000';
+  const sb = document.getElementById('startBtn');
+  if (sb) sb.textContent = myAction === 'join'
+    ? (ui.connectBtn || 'Connect')
+    : (ui.createBtn || 'Create');
 }
 
 function resetToGreekUI() {
-  // Reset all UI back to Greek when Greek role selected
-  const whoR = document.getElementById('whoAreYouTitle');
-  const connR = document.getElementById('connTypeTitle');
-  if (whoR) whoR.textContent = 'ΠΟΙΟΣ ΕΙΣΑΙ;';
-  if (connR) connR.textContent = 'ΤΡΟΠΟΣ ΣΥΝΔΕΣΗΣ';
-  const actionJoin = document.querySelector('#actionJoin');
-  const actionHost = document.querySelector('#actionHost');
-  const jt = document.getElementById('joinTitle');
-  const js = document.getElementById('joinSub');
+  const who = document.getElementById('whoAreYouTitle');
+  const conn = document.getElementById('connTypeTitle');
+  if (who) who.textContent = 'ΠΟΙΟΣ ΕΙΣΑΙ;';
+  if (conn) conn.textContent = 'ΤΡΟΠΟΣ ΣΥΝΔΕΣΗΣ';
+
+  const wDesc = document.getElementById('workerRoleDesc');
+  if (wDesc) wDesc.textContent = \`Μιλάω \${PAIRS[currentPair].B.name} · Εισάγω κωδικό\`;
+
   const ht = document.getElementById('hostTitle');
   const hs = document.getElementById('hostSub');
-  if (jt) jt.textContent = 'Σύνδεση';
-  if (js) js.textContent = 'Έχω κωδικό';
+  const jt = document.getElementById('joinTitle');
+  const js = document.getElementById('joinSub');
   if (ht) ht.textContent = 'Νέα συνομιλία';
   if (hs) hs.textContent = 'Δημιουργώ κωδικό';
-  const startBtn = document.getElementById('startBtn');
-  if (startBtn) startBtn.textContent = myAction === 'join' ? 'Σύνδεση' : 'Δημιουργία συνομιλίας';
-  const codeLabel = document.querySelector('.join-label');
-  if (codeLabel) codeLabel.textContent = 'Εισάγετε τον κωδικό συνομιλίας:';
-  const workerDesc = document.getElementById('workerRoleDesc');
-  if (workerDesc) workerDesc.textContent = \`Μιλάω \${PAIRS[currentPair].B.name} · Εισάγω κωδικό\`;
+  if (jt) jt.textContent = 'Σύνδεση';
+  if (js) js.textContent = 'Έχω κωδικό';
+
+  const cl = document.querySelector('.join-label');
+  if (cl) cl.textContent = 'Εισάγετε τον κωδικό συνομιλίας:';
+
+  const sb = document.getElementById('startBtn');
+  if (sb) sb.textContent = myAction === 'join' ? 'Σύνδεση' : 'Δημιουργία συνομιλίας';
 }
 
 function selectRole(role) {
@@ -921,7 +941,7 @@ function selectRole(role) {
   document.getElementById('cardA').classList.toggle('selected', role === 'A');
   document.getElementById('cardB').classList.toggle('selected', role === 'B');
   // Auto-select action based on role
-  if (role === 'B') { selectAction('join'); applyWorkerUI(currentPair); }
+  if (role === 'B') { selectAction('join'); showEnglishSetup(); }
   else { selectAction('host'); resetToGreekUI(); }
 }
 

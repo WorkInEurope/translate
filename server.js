@@ -772,6 +772,9 @@ function selectRole(role) {
   myRole = role;
   document.getElementById('cardA').classList.toggle('selected', role === 'A');
   document.getElementById('cardB').classList.toggle('selected', role === 'B');
+  // Auto-select action based on role
+  if (role === 'B') selectAction('join');
+  else selectAction('host');
 }
 
 let myAction = 'host'; // host = δημιουργώ, join = συνδέομαι

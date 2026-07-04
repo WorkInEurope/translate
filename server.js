@@ -533,7 +533,7 @@ function isGarbage(text) {
   return GARBAGE_PATTERNS.some(p => p.test(text.trim()));
 }
 
-const OPENAI_KEY = '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';
+const OPENAI_KEY = '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';
 const WS_URL = 'wss://translate-ph1l.onrender.com';
 
 const PAIRS = {

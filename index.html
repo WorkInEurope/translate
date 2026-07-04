@@ -764,8 +764,6 @@ function startCall() {
   showScreen('screenCall');
   warmUpAPIs();
   initDemoMode();
-  initDemoMode();
-  initDemoMode();
 }
 
 
@@ -1113,7 +1111,6 @@ function endSession() {
 }
 
 // Init
-checkAuth();
 setPair('el-ar');
 selectRole('A');
 selectAction('host');
@@ -1476,6 +1473,7 @@ function checkAuth() {
   const isDemo = localStorage.getItem('demo_mode') === 'true';
   if (!token && !isDemo) window.location.href = '/login';
 }
+checkAuth();
 </script>
 
 <script>

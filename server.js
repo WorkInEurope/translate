@@ -6,9 +6,9 @@ const { join } = require('path');
 const PORT = process.env.PORT || 3000;
 
 const https = require('https');
-const OPENAI_KEY = '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';
+const OPENAI_KEY = process.env.OPENAI_API_KEY;
 
-const OPENAI_KEY_UNUSED = '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';
+const OPENAI_KEY_UNUSED = '';
 
 // Helper: proxy POST to OpenAI
 function proxyOpenAI(path, body, res) {

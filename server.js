@@ -703,15 +703,15 @@ const HTML_CONTENT = `<!DOCTYPE html>
 
 <script>
 const UI_LABELS = {
-  'el': { warmup: 'Παρακαλώ περιμένετε...', endBtn: 'Τερματισμός', processing: 'Μεταφράζει...', hostLabel: 'Νέα συνομιλία', joinLabel: 'Σύνδεση', createBtn: 'Δημιουργία συνομιλίας', codeLabel: 'Εισάγετε κωδικό:', codePlaceholder: '0000', hint: 'Μιλάτε αργά και καθαρά · Πατήστε το κείμενο για επεξεργασία', mic: 'Μιλάω Ελληνικά', stop: 'Σταματήστε', del: '✕ Διαγραφή', placeholder: 'Πατήστε και μιλήστε αργά...', incoming: 'Εδώ θα ακουστεί η μετάφραση...', ready: 'Έτοιμο', listening: 'Ακούει...' },
-  'ar': { warmup: 'يرجى الانتظار...', endBtn: 'إنهاء', processing: 'جارٍ الترجمة...', hostLabel: 'محادثة جديدة', joinLabel: 'اتصال', createBtn: 'إنشاء محادثة', codeLabel: 'أدخل الرمز:', codePlaceholder: '0000', hint: 'تحدث ببطء ووضوح · انقر على النص للتحرير', mic: 'اضغط للتحدث', stop: 'إيقاف', del: '✕ حذف', placeholder: 'اضغط الزر وتحدث...', incoming: 'ستظهر الترجمة هنا...', ready: 'جاهز', listening: 'يستمع...' },
-  'vi': { warmup: 'Vui lòng đợi...', endBtn: 'Kết thúc', processing: 'Đang dịch...', hostLabel: 'Cuộc trò chuyện mới', joinLabel: 'Kết nối', createBtn: 'Tạo cuộc trò chuyện', codeLabel: 'Nhập mã:', codePlaceholder: '0000', hint: 'Nói chậm và rõ ràng · Nhấn vào văn bản để chỉnh sửa', mic: 'Nhấn để nói', stop: 'Dừng', del: '✕ Xóa', placeholder: 'Nhấn nút và nói...', incoming: 'Bản dịch sẽ xuất hiện ở đây...', ready: 'Sẵn sàng', listening: 'Đang nghe...' },
-  'en': { warmup: 'Please wait...', endBtn: 'End', processing: 'Translating...', hostLabel: 'New conversation', joinLabel: 'Connect', createBtn: 'Create conversation', codeLabel: 'Enter code:', codePlaceholder: '0000', hint: 'Speak slowly and clearly · Tap text to edit', mic: 'Press to speak', stop: 'Stop', del: '✕ Delete', placeholder: 'Press the button and speak...', incoming: 'Translation will appear here...', ready: 'Ready', listening: 'Listening...' },
-  'hi': { warmup: 'कृपया प्रतीक्षा करें...', endBtn: 'समाप्त', processing: 'अनुवाद हो रहा है...', hostLabel: 'नई बातचीत', joinLabel: 'जोड़ें', createBtn: 'बातचीत बनाएं', codeLabel: 'कोड दर्ज करें:', codePlaceholder: '0000', hint: 'धीरे और स्पष्ट बोलें · संपादन के लिए टेक्स्ट पर टैप करें', mic: 'बोलने के लिए दबाएं', stop: 'रोकें', del: '✕ हटाएं', placeholder: 'बटन दबाएं और बोलें...', incoming: 'अनुवाद यहाँ दिखेगा...', ready: 'तैयार', listening: 'सुन रहा है...' },
-  'ur': { warmup: 'براہ کرم انتظار کریں...', endBtn: 'ختم', processing: 'ترجمہ ہو رہا ہے...', hostLabel: 'نئی گفتگو', joinLabel: 'جوڑیں', createBtn: 'گفتگو بنائیں', codeLabel: 'کوڈ درج کریں:', codePlaceholder: '0000', hint: 'آہستہ اور واضح بولیں · ترمیم کے لیے متن پر ٹیپ کریں', mic: 'بولنے کے لیے دبائیں', stop: 'روکیں', del: '✕ حذف', placeholder: 'بٹن دبائیں اور بولیں...', incoming: 'ترجمہ یہاں آئے گا...', ready: 'تیار', listening: 'سن رہا ہے...' },
-  'sq': { warmup: 'Ju lutemi prisni...', endBtn: 'Fund', processing: 'Duke përkthyer...', hostLabel: 'Bisedë e re', joinLabel: 'Lidhje', createBtn: 'Krijo bisedë', codeLabel: 'Fut kodin:', codePlaceholder: '0000', hint: 'Flisni ngadalë dhe qartë · Trokitni tekstin për ta redaktuar', mic: 'Shtypni për të folur', stop: 'Ndalo', del: '✕ Fshi', placeholder: 'Shtypni butonin dhe flisni...', incoming: 'Përkthimi do të shfaqet këtu...', ready: 'Gati', listening: 'Po dëgjon...' },
-  'pa': { warmup: 'ਕਿਰਪਾ ਉਡੀਕ ਕਰੋ...', endBtn: 'ਸਮਾਪਤ', processing: 'ਅਨੁਵਾਦ ਹੋ ਰਿਹਾ ਹੈ...', hostLabel: 'ਨਵੀਂ ਗੱਲਬਾਤ', joinLabel: 'ਜੁੜੋ', createBtn: 'ਗੱਲਬਾਤ ਬਣਾਓ', codeLabel: 'ਕੋਡ ਦਾਖਲ ਕਰੋ:', codePlaceholder: '0000', hint: 'ਹੌਲੀ ਅਤੇ ਸਾਫ਼ ਬੋਲੋ · ਸੋਧਣ ਲਈ ਟੈਕਸਟ ਤੇ ਟੈਪ ਕਰੋ', mic: 'ਬੋਲਣ ਲਈ ਦਬਾਓ', stop: 'ਰੋਕੋ', del: '✕ ਮਿਟਾਓ', placeholder: 'ਬਟਨ ਦਬਾਓ ਅਤੇ ਬੋਲੋ...', incoming: 'ਅਨੁਵਾਦ ਇੱਥੇ ਦਿਖਾਈ ਦੇਵੇਗਾ...', ready: 'ਤਿਆਰ', listening: 'ਸੁਣ ਰਿਹਾ ਹੈ...' },
-  'ne': { warmup: 'कृपया प्रतीक्षा गर्नुहोस्...', endBtn: 'समाप्त', processing: 'अनुवाद भइरहेको छ...', hostLabel: 'नयाँ कुराकानी', joinLabel: 'जडान', createBtn: 'कुराकानी बनाउनुहोस्', codeLabel: 'कोड प्रविष्ट गर्नुहोस्:', codePlaceholder: '0000', hint: 'बिस्तारै र स्पष्ट बोल्नुहोस् · सम्पादन गर्न पाठमा ट्याप गर्नुहोस्', mic: 'बोल्न थिच्नुहोस्', stop: 'रोक्नुहोस्', del: '✕ मेटाउनुहोस्', placeholder: 'बटन थिच्नुहोस् र बोल्नुहोस्...', incoming: 'अनुवाद यहाँ देखिनेछ...', ready: 'तयार', listening: 'सुन्दैछ...' }
+  'el': { joinSub: 'Έχω κωδικό', warmup: 'Παρακαλώ περιμένετε...', endBtn: 'Τερματισμός', processing: 'Μεταφράζει...', hostLabel: 'Νέα συνομιλία', joinLabel: 'Σύνδεση', createBtn: 'Δημιουργία συνομιλίας', codeLabel: 'Εισάγετε κωδικό:', codePlaceholder: '0000', hint: 'Μιλάτε αργά και καθαρά · Πατήστε το κείμενο για επεξεργασία', mic: 'Μιλάω Ελληνικά', stop: 'Σταματήστε', del: '✕ Διαγραφή', placeholder: 'Πατήστε και μιλήστε αργά...', incoming: 'Εδώ θα ακουστεί η μετάφραση...', ready: 'Έτοιμο', listening: 'Ακούει...' },
+  'ar': { joinSub: 'لدي رمز', warmup: 'يرجى الانتظار...', endBtn: 'إنهاء', processing: 'جارٍ الترجمة...', hostLabel: 'محادثة جديدة', joinLabel: 'اتصال', createBtn: 'إنشاء محادثة', codeLabel: 'أدخل الرمز:', codePlaceholder: '0000', hint: 'تحدث ببطء ووضوح · انقر على النص للتحرير', mic: 'اضغط للتحدث', stop: 'إيقاف', del: '✕ حذف', placeholder: 'اضغط الزر وتحدث...', incoming: 'ستظهر الترجمة هنا...', ready: 'جاهز', listening: 'يستمع...' },
+  'vi': { joinSub: 'Tôi có mã', warmup: 'Vui lòng đợi...', endBtn: 'Kết thúc', processing: 'Đang dịch...', hostLabel: 'Cuộc trò chuyện mới', joinLabel: 'Kết nối', createBtn: 'Tạo cuộc trò chuyện', codeLabel: 'Nhập mã:', codePlaceholder: '0000', hint: 'Nói chậm và rõ ràng · Nhấn vào văn bản để chỉnh sửa', mic: 'Nhấn để nói', stop: 'Dừng', del: '✕ Xóa', placeholder: 'Nhấn nút và nói...', incoming: 'Bản dịch sẽ xuất hiện ở đây...', ready: 'Sẵn sàng', listening: 'Đang nghe...' },
+  'en': { joinSub: 'I have a code', warmup: 'Please wait...', endBtn: 'End', processing: 'Translating...', hostLabel: 'New conversation', joinLabel: 'Connect', createBtn: 'Create conversation', codeLabel: 'Enter code:', codePlaceholder: '0000', hint: 'Speak slowly and clearly · Tap text to edit', mic: 'Press to speak', stop: 'Stop', del: '✕ Delete', placeholder: 'Press the button and speak...', incoming: 'Translation will appear here...', ready: 'Ready', listening: 'Listening...' },
+  'hi': { joinSub: 'मेरे पास कोड है', warmup: 'कृपया प्रतीक्षा करें...', endBtn: 'समाप्त', processing: 'अनुवाद हो रहा है...', hostLabel: 'नई बातचीत', joinLabel: 'जोड़ें', createBtn: 'बातचीत बनाएं', codeLabel: 'कोड दर्ज करें:', codePlaceholder: '0000', hint: 'धीरे और स्पष्ट बोलें · संपादन के लिए टेक्स्ट पर टैप करें', mic: 'बोलने के लिए दबाएं', stop: 'रोकें', del: '✕ हटाएं', placeholder: 'बटन दबाएं और बोलें...', incoming: 'अनुवाद यहाँ दिखेगा...', ready: 'तैयार', listening: 'सुन रहा है...' },
+  'ur': { joinSub: 'میرے پاس کوڈ ہے', warmup: 'براہ کرم انتظار کریں...', endBtn: 'ختم', processing: 'ترجمہ ہو رہا ہے...', hostLabel: 'نئی گفتگو', joinLabel: 'جوڑیں', createBtn: 'گفتگو بنائیں', codeLabel: 'کوڈ درج کریں:', codePlaceholder: '0000', hint: 'آہستہ اور واضح بولیں · ترمیم کے لیے متن پر ٹیپ کریں', mic: 'بولنے کے لیے دبائیں', stop: 'روکیں', del: '✕ حذف', placeholder: 'بٹن دبائیں اور بولیں...', incoming: 'ترجمہ یہاں آئے گا...', ready: 'تیار', listening: 'سن رہا ہے...' },
+  'sq': { joinSub: 'Kam një kod', warmup: 'Ju lutemi prisni...', endBtn: 'Fund', processing: 'Duke përkthyer...', hostLabel: 'Bisedë e re', joinLabel: 'Lidhje', createBtn: 'Krijo bisedë', codeLabel: 'Fut kodin:', codePlaceholder: '0000', hint: 'Flisni ngadalë dhe qartë · Trokitni tekstin për ta redaktuar', mic: 'Shtypni për të folur', stop: 'Ndalo', del: '✕ Fshi', placeholder: 'Shtypni butonin dhe flisni...', incoming: 'Përkthimi do të shfaqet këtu...', ready: 'Gati', listening: 'Po dëgjon...' },
+  'pa': { joinSub: 'ਮੇਰੇ ਕੋਲ ਕੋਡ ਹੈ', warmup: 'ਕਿਰਪਾ ਉਡੀਕ ਕਰੋ...', endBtn: 'ਸਮਾਪਤ', processing: 'ਅਨੁਵਾਦ ਹੋ ਰਿਹਾ ਹੈ...', hostLabel: 'ਨਵੀਂ ਗੱਲਬਾਤ', joinLabel: 'ਜੁੜੋ', createBtn: 'ਗੱਲਬਾਤ ਬਣਾਓ', codeLabel: 'ਕੋਡ ਦਾਖਲ ਕਰੋ:', codePlaceholder: '0000', hint: 'ਹੌਲੀ ਅਤੇ ਸਾਫ਼ ਬੋਲੋ · ਸੋਧਣ ਲਈ ਟੈਕਸਟ ਤੇ ਟੈਪ ਕਰੋ', mic: 'ਬੋਲਣ ਲਈ ਦਬਾਓ', stop: 'ਰੋਕੋ', del: '✕ ਮਿਟਾਓ', placeholder: 'ਬਟਨ ਦਬਾਓ ਅਤੇ ਬੋਲੋ...', incoming: 'ਅਨੁਵਾਦ ਇੱਥੇ ਦਿਖਾਈ ਦੇਵੇਗਾ...', ready: 'ਤਿਆਰ', listening: 'ਸੁਣ ਰਿਹਾ ਹੈ...' },
+  'ne': { joinSub: 'मसँग कोड छ', warmup: 'कृपया प्रतीक्षा गर्नुहोस्...', endBtn: 'समाप्त', processing: 'अनुवाद भइरहेको छ...', hostLabel: 'नयाँ कुराकानी', joinLabel: 'जडान', createBtn: 'कुराकानी बनाउनुहोस्', codeLabel: 'कोड प्रविष्ट गर्नुहोस्:', codePlaceholder: '0000', hint: 'बिस्तारै र स्पष्ट बोल्नुहोस् · सम्पादन गर्न पाठमा ट्याप गर्नुहोस्', mic: 'बोल्न थिच्नुहोस्', stop: 'रोक्नुहोस्', del: '✕ मेटाउनुहोस्', placeholder: 'बटन थिच्नुहोस् र बोल्नुहोस्...', incoming: 'अनुवाद यहाँ देखिनेछ...', ready: 'तयार', listening: 'सुन्दैछ...' }
 };
 
 
@@ -853,28 +853,72 @@ function applyWorkerUI(pair) {
   const ui = UI_LABELS[lang] || UI_LABELS['el'];
   const cfg = PAIRS[pair];
 
-  // Role card labels
-  document.getElementById('workerRoleName') && 
-    (document.getElementById('workerRoleName').textContent = cfg.B.name);
+  // Section title "ΠΟΙΟΣ ΕΙΣΑΙ;"
+  const roleTitles = document.querySelectorAll('.role-title');
+  roleTitles.forEach(t => {
+    if (t.textContent.trim() === 'ΠΟΙΟΣ ΕΙΣΑΙ;') t.textContent = ui.whoAreYou || 'ΠΟΙΟΣ ΕΙΣΑΙ;';
+    if (t.textContent.trim() === 'ΤΡΟΠΟΣ ΣΥΝΔΕΣΗΣ') t.textContent = ui.connectionType || 'ΤΡΟΠΟΣ ΣΥΝΔΕΣΗΣ';
+  });
 
-  // Action labels
-  const actionJoinLabel = document.querySelector('#actionJoin div div:first-child');
-  const actionHostLabel = document.querySelector('#actionHost div div:first-child');
-  if (actionJoinLabel) actionJoinLabel.textContent = ui.joinLabel || 'Σύνδεση';
-  if (actionHostLabel) actionHostLabel.textContent = ui.hostLabel || 'Νέα συνομιλία';
+  // Worker role card desc
+  const workerDesc = document.getElementById('workerRoleDesc');
+  if (workerDesc) workerDesc.textContent = ui.workerDesc || \`Μιλάω \${cfg.B.name} · Εισάγω κωδικό\`;
+
+  // Greek role card - always stay Greek
+  const descA = document.getElementById('descA');
+  if (descA) descA.textContent = 'Μιλάω Ελληνικά';
+
+  // Action cards
+  const actionJoin = document.querySelector('#actionJoin');
+  const actionHost = document.querySelector('#actionHost');
+  if (actionJoin) {
+    actionJoin.querySelector('div div:first-child').textContent = ui.joinLabel || 'Σύνδεση';
+    actionJoin.querySelector('div div:last-child').textContent = ui.joinSub || 'Έχω κωδικό';
+  }
+  if (actionHost) {
+    actionHost.querySelector('div div:first-child').textContent = ui.hostLabel || 'Νέα συνομιλία';
+    actionHost.querySelector('div div:last-child').textContent = ui.hostSub || 'Δημιουργώ κωδικό';
+  }
 
   // Start button
   const startBtn = document.getElementById('startBtn');
-  if (myAction === 'join') startBtn.textContent = ui.connectBtn || 'Σύνδεση';
-  else startBtn.textContent = ui.createBtn || 'Δημιουργία';
+  if (startBtn) startBtn.textContent = myAction === 'join'
+    ? (ui.connectBtn || 'Σύνδεση')
+    : (ui.createBtn || 'Δημιουργία');
 
-  // Code input placeholder
-  const codeIn = document.getElementById('joinCode');
-  if (codeIn) codeIn.placeholder = ui.codePlaceholder || '0000';
-
-  // Code label
+  // Code label & placeholder
   const codeLabel = document.querySelector('.join-label');
   if (codeLabel) codeLabel.textContent = ui.codeLabel || 'Εισάγετε τον κωδικό συνομιλίας:';
+  const codeIn = document.getElementById('joinCode');
+  if (codeIn) codeIn.placeholder = ui.codePlaceholder || '0000';
+}
+
+function resetToGreekUI() {
+  // Reset all UI back to Greek when Greek role selected
+  document.querySelectorAll('.role-title').forEach(t => {
+    if (t.id !== 'industryTitle') {
+      if (t.textContent.includes('ΕΙΣΑΙ') || t.textContent.includes('ARE') || t.textContent.includes('आप') || t.textContent.includes('WHO')) 
+        t.textContent = 'ΠΟΙΟΣ ΕΙΣΑΙ;';
+      if (t.textContent.includes('ΣΥΝΔ') || t.textContent.includes('CONNECT') || t.textContent.includes('जोड़')) 
+        t.textContent = 'ΤΡΟΠΟΣ ΣΥΝΔΕΣΗΣ';
+    }
+  });
+  const actionJoin = document.querySelector('#actionJoin');
+  const actionHost = document.querySelector('#actionHost');
+  if (actionJoin) {
+    actionJoin.querySelector('div div:first-child').textContent = 'Σύνδεση';
+    actionJoin.querySelector('div div:last-child').textContent = 'Έχω κωδικό';
+  }
+  if (actionHost) {
+    actionHost.querySelector('div div:first-child').textContent = 'Νέα συνομιλία';
+    actionHost.querySelector('div div:last-child').textContent = 'Δημιουργώ κωδικό';
+  }
+  const startBtn = document.getElementById('startBtn');
+  if (startBtn) startBtn.textContent = myAction === 'join' ? 'Σύνδεση' : 'Δημιουργία συνομιλίας';
+  const codeLabel = document.querySelector('.join-label');
+  if (codeLabel) codeLabel.textContent = 'Εισάγετε τον κωδικό συνομιλίας:';
+  const workerDesc = document.getElementById('workerRoleDesc');
+  if (workerDesc) workerDesc.textContent = \`Μιλάω \${PAIRS[currentPair].B.name} · Εισάγω κωδικό\`;
 }
 
 function selectRole(role) {
@@ -883,7 +927,7 @@ function selectRole(role) {
   document.getElementById('cardB').classList.toggle('selected', role === 'B');
   // Auto-select action based on role
   if (role === 'B') { selectAction('join'); applyWorkerUI(currentPair); }
-  else selectAction('host');
+  else { selectAction('host'); resetToGreekUI(); }
 }
 
 let myAction = 'host'; // host = δημιουργώ, join = συνδέομαι

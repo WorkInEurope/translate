@@ -243,6 +243,8 @@ server.listen(PORT, () => {
 });
 
 // HTML app embedded
+
+// HTML app embedded
 const HTML_CONTENT = `<!DOCTYPE html>
 <html lang="el">
 <head>
@@ -667,7 +669,7 @@ function isGarbage(text) {
   return GARBAGE_PATTERNS.some(p => p.test(text.trim()));
 }
 
-const OPENAI_KEY_UNUSED = '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';
+const OPENAI_KEY = 'not-used-proxy-mode';
 const WS_URL = 'wss://translate-ph1l.onrender.com';
 
 const PAIRS = {
@@ -1031,8 +1033,8 @@ async function startWhisper() {
         form.append('file', blob, 'audio.webm');
         form.append('model', 'whisper-1');
         form.append('language', PAIRS[currentPair][myRole].whisper);
-        const res = await fetch('https://api.openai.com/v1/audio/transcriptions', {
-          method: 'POST', headers: { 'Authorization': \`Bearer \${OPENAI_KEY}\` }, body: form
+        const res = await fetch('/api/stt', {
+          method: 'POST', body: form
         });
         const data = await res.json();
         const text = data.text?.trim();
@@ -1064,9 +1066,9 @@ async function processAndSend(text) {
   const targetVoice = myRole === 'A' ? cfg.B.tts : cfg.A.tts;
 
   try {
-    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+    const res = await fetch('/api/translate', {
       method: 'POST',
-      headers: { 'Authorization': \`Bearer \${OPENAI_KEY}\`, 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: 'gpt-4o',
         messages: [{ role: 'system', content: prompt }, { role: 'user', content: text }],
@@ -1099,9 +1101,9 @@ async function receiveTranslation(msg) {
 
   isSpeaking = true;
   try {
-    const res = await fetch('https://api.openai.com/v1/audio/speech', {
+    const res = await fetch('/api/tts', {
       method: 'POST',
-      headers: { 'Authorization': \`Bearer \${OPENAI_KEY}\`, 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ model: 'tts-1', input: msg.text, voice: msg.voice, speed: 0.95 })
     });
     const blob = await res.blob();
@@ -1284,8 +1286,8 @@ async function vadProcessAudio() {
     fd.append('file', blob, 'audio.webm');
     fd.append('model', 'whisper-1');
     fd.append('language', PAIRS[vadPair][vadRole].whisper);
-    const stt = await fetch('https://api.openai.com/v1/audio/transcriptions', {
-      method: 'POST', headers: { 'Authorization': \`Bearer \${OPENAI_KEY}\` }, body: fd
+    const stt = await fetch('/api/stt', {
+      method: 'POST', body: fd
     });
     const { text } = await stt.json();
     if (!text?.trim() || isGarbage(text)) { setVadUI('waiting'); setVadMsg('Δεν αναγνωρίστηκε κείμενο'); return; }
@@ -1295,9 +1297,9 @@ async function vadProcessAudio() {
 
     const prompt = buildPrompt(vadRole === 'A' ? 'AtoB' : 'BtoA', vadPair);
     const targetVoice = vadRole === 'A' ? PAIRS[vadPair].B.tts : PAIRS[vadPair].A.tts;
-    const tr = await fetch('https://api.openai.com/v1/chat/completions', {
+    const tr = await fetch('/api/translate', {
       method: 'POST',
-      headers: { 'Authorization': \`Bearer \${OPENAI_KEY}\`, 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ model: 'gpt-4o', messages: [{ role: 'system', content: prompt }, { role: 'user', content: text.trim() }], max_tokens: 500, temperature: 0.15 })
     });
     const td = await tr.json();
@@ -1310,9 +1312,9 @@ async function vadProcessAudio() {
     vadSpeaking = true;
 
     try {
-      const ttsRes = await fetch('https://api.openai.com/v1/audio/speech', {
+      const ttsRes = await fetch('/api/tts', {
         method: 'POST',
-        headers: { 'Authorization': \`Bearer \${OPENAI_KEY}\`, 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ model: 'tts-1', input: translation, voice: targetVoice, speed: 0.95 })
       });
       const ttsBlob = await ttsRes.blob();

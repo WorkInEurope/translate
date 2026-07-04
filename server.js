@@ -267,6 +267,7 @@ const HTML_CONTENT = `<!DOCTYPE html>
     --accent-sq: #e11d48;
     --accent-pa: #7c3aed;
     --accent-en-pa: #0891b2;
+    --accent-ne: #dc2626;
     --text: #f1f5f9;
     --text-dim: #64748b;
     --text-mid: #94a3b8;
@@ -445,47 +446,51 @@ const HTML_CONTENT = `<!DOCTYPE html>
     <button class="lang-btn" data-pair="el-sq" onclick="setPair('el-sq')">🇬🇷 🇦🇱 Αλβανικά</button>
     <button class="lang-btn" data-pair="el-pa" onclick="setPair('el-pa')">🇬🇷 🇮🇳 Punjabi</button>
     <button class="lang-btn" data-pair="en-pa" onclick="setPair('en-pa')">🇬🇧 🇮🇳 Punjabi</button>
+    <button class="lang-btn" data-pair="el-ne" onclick="setPair('el-ne')">🇬🇷 🇳🇵 Νεπάλ</button>
   </div>
 
 
-  <div class="role-title" style="margin-top:8px;">Κλάδος εργασίας</div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;" id="industryGrid">
-    <div class="industry-card selected" data-industry="Βιομηχανία / Παραγωγή" onclick="selectIndustry(this)">
+  <div class="role-title" style="margin-top:8px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;" onclick="toggleIndustry()">
+    <span>Κλάδος εργασίας <span id="industrySelected" style="color:var(--accent-el);font-weight:700;">🏭 Βιομηχανία</span></span>
+    <span id="industryArrow" style="font-size:16px;transition:transform 0.2s;">▼</span>
+  </div>
+  <div style="display:none;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;" id="industryGrid">
+    <div class="industry-card selected" data-industry="Βιομηχανία / Παραγωγή" onclick="selectIndustryAndClose(this)">
       <div style="font-size:20px;">🏭</div>
       <div>
         <div style="font-size:13px;font-weight:600;">Βιομηχανία</div>
         <div style="font-size:11px;color:var(--text-dim);">Γραμμές · Μηχανές · Ασφάλεια</div>
       </div>
     </div>
-    <div class="industry-card" data-industry="Κατασκευές / Τεχνικά έργα" onclick="selectIndustry(this)">
+    <div class="industry-card" data-industry="Κατασκευές / Τεχνικά έργα" onclick="selectIndustryAndClose(this)">
       <div style="font-size:20px;">🏗️</div>
       <div>
         <div style="font-size:13px;font-weight:600;">Κατασκευές</div>
         <div style="font-size:11px;color:var(--text-dim);">Εργαλεία · Οδηγίες · Εργοτάξιο</div>
       </div>
     </div>
-    <div class="industry-card" data-industry="Τουρισμός / Ξενοδοχεία" onclick="selectIndustry(this)">
+    <div class="industry-card" data-industry="Τουρισμός / Ξενοδοχεία" onclick="selectIndustryAndClose(this)">
       <div style="font-size:20px;">🏨</div>
       <div>
         <div style="font-size:13px;font-weight:600;">Τουρισμός</div>
         <div style="font-size:11px;color:var(--text-dim);">Housekeeping · Κουζίνα · Συντήρηση</div>
       </div>
     </div>
-    <div class="industry-card" data-industry="Logistics / Αποθήκη" onclick="selectIndustry(this)">
+    <div class="industry-card" data-industry="Logistics / Αποθήκη" onclick="selectIndustryAndClose(this)">
       <div style="font-size:20px;">📦</div>
       <div>
         <div style="font-size:13px;font-weight:600;">Logistics</div>
         <div style="font-size:11px;color:var(--text-dim);">Picking · Φορτώσεις · Παραγγελίες</div>
       </div>
     </div>
-    <div class="industry-card" data-industry="Υγεία / Φροντίδα" onclick="selectIndustry(this)">
+    <div class="industry-card" data-industry="Υγεία / Φροντίδα" onclick="selectIndustryAndClose(this)">
       <div style="font-size:20px;">❤️</div>
       <div>
         <div style="font-size:13px;font-weight:600;">Υγεία</div>
         <div style="font-size:11px;color:var(--text-dim);">Φροντίδα · Καθημερινή υποστήριξη</div>
       </div>
     </div>
-    <div class="industry-card" data-industry="Γενικός κλάδος" onclick="selectIndustry(this)">
+    <div class="industry-card" data-industry="Γενικός κλάδος" onclick="selectIndustryAndClose(this)">
       <div style="font-size:20px;">➕</div>
       <div>
         <div style="font-size:13px;font-weight:600;">Άλλος κλάδος</div>
@@ -580,7 +585,8 @@ const HTML_CONTENT = `<!DOCTYPE html>
       <div id="editHint" style="display:none;font-size:11px;color:var(--text-dim);margin-top:4px;">✏️ Επεξεργασία — πατήστε Αποστολή για μετάφραση</div>
     </div>
     <div style="display:flex;gap:6px;flex-shrink:0;">
-      <button id="deleteBtn" onclick="deleteTranscript()" style="display:none;padding:7px 14px;background:var(--danger);color:white;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font);">✕</button>
+      <div id="transcriptHint" style="font-size:11px;color:var(--text-dim);padding:4px 2px;display:none;"></div>
+    <button id="deleteBtn" onclick="deleteTranscript()" style="display:none;padding:7px 14px;background:var(--danger);color:white;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font);">✕</button>
       <button id="sendBtn" onclick="sendEdited()" style="display:none;flex:1;padding:7px 16px;background:var(--accent-el);color:white;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font);">📤 Αποστολή</button>
     </div>
     <button class="mic-btn idle" id="myMicBtn" onclick="toggleMic()">
@@ -619,14 +625,15 @@ const HTML_CONTENT = `<!DOCTYPE html>
 
 <script>
 const UI_LABELS = {
-  'el': { mic: 'Μιλάω Ελληνικά', stop: 'Σταματήστε', del: '✕ Διαγραφή', placeholder: 'Πατήστε το κουμπί και μιλήστε...', incoming: 'Εδώ θα ακουστεί η μετάφραση...', ready: 'Έτοιμο', listening: 'Ακούει...' },
-  'ar': { mic: 'اضغط للتحدث', stop: 'إيقاف', del: '✕ حذف', placeholder: 'اضغط الزر وتحدث...', incoming: 'ستظهر الترجمة هنا...', ready: 'جاهز', listening: 'يستمع...' },
-  'vi': { mic: 'Nhấn để nói', stop: 'Dừng', del: '✕ Xóa', placeholder: 'Nhấn nút và nói...', incoming: 'Bản dịch sẽ xuất hiện ở đây...', ready: 'Sẵn sàng', listening: 'Đang nghe...' },
-  'en': { mic: 'Press to speak', stop: 'Stop', del: '✕ Delete', placeholder: 'Press the button and speak...', incoming: 'Translation will appear here...', ready: 'Ready', listening: 'Listening...' },
-  'hi': { mic: 'बोलने के लिए दबाएं', stop: 'रोकें', del: '✕ हटाएं', placeholder: 'बटन दबाएं और बोलें...', incoming: 'अनुवाद यहाँ दिखेगा...', ready: 'तैयार', listening: 'सुन रहा है...' },
-  'ur': { mic: 'بولنے کے لیے دبائیں', stop: 'روکیں', del: '✕ حذف', placeholder: 'بٹن دبائیں اور بولیں...', incoming: 'ترجمہ یہاں آئے گا...', ready: 'تیار', listening: 'سن رہا ہے...' },
-  'sq': { mic: 'Shtypni për të folur', stop: 'Ndalo', del: '✕ Fshi', placeholder: 'Shtypni butonin dhe flisni...', incoming: 'Përkthimi do të shfaqet këtu...', ready: 'Gati', listening: 'Po dëgjon...' },
-  'pa': { mic: 'ਬੋਲਣ ਲਈ ਦਬਾਓ', stop: 'ਰੋਕੋ', del: '✕ ਮਿਟਾਓ', placeholder: 'ਬਟਨ ਦਬਾਓ ਅਤੇ ਬੋਲੋ...', incoming: 'ਅਨੁਵਾਦ ਇੱਥੇ ਦਿਖਾਈ ਦੇਵੇਗਾ...', ready: 'ਤਿਆਰ', listening: 'ਸੁਣ ਰਿਹਾ ਹੈ...' }
+  'el': { hint: 'Μιλάτε αργά και καθαρά · Πατήστε το κείμενο για επεξεργασία', mic: 'Μιλάω Ελληνικά', stop: 'Σταματήστε', del: '✕ Διαγραφή', placeholder: 'Πατήστε και μιλήστε αργά...', incoming: 'Εδώ θα ακουστεί η μετάφραση...', ready: 'Έτοιμο', listening: 'Ακούει...' },
+  'ar': { hint: 'تحدث ببطء ووضوح · انقر على النص للتحرير', mic: 'اضغط للتحدث', stop: 'إيقاف', del: '✕ حذف', placeholder: 'اضغط الزر وتحدث...', incoming: 'ستظهر الترجمة هنا...', ready: 'جاهز', listening: 'يستمع...' },
+  'vi': { hint: 'Nói chậm và rõ ràng · Nhấn vào văn bản để chỉnh sửa', mic: 'Nhấn để nói', stop: 'Dừng', del: '✕ Xóa', placeholder: 'Nhấn nút và nói...', incoming: 'Bản dịch sẽ xuất hiện ở đây...', ready: 'Sẵn sàng', listening: 'Đang nghe...' },
+  'en': { hint: 'Speak slowly and clearly · Tap text to edit', mic: 'Press to speak', stop: 'Stop', del: '✕ Delete', placeholder: 'Press the button and speak...', incoming: 'Translation will appear here...', ready: 'Ready', listening: 'Listening...' },
+  'hi': { hint: 'धीरे और स्पष्ट बोलें · संपादन के लिए टेक्स्ट पर टैप करें', mic: 'बोलने के लिए दबाएं', stop: 'रोकें', del: '✕ हटाएं', placeholder: 'बटन दबाएं और बोलें...', incoming: 'अनुवाद यहाँ दिखेगा...', ready: 'तैयार', listening: 'सुन रहा है...' },
+  'ur': { hint: 'آہستہ اور واضح بولیں · ترمیم کے لیے متن پر ٹیپ کریں', mic: 'بولنے کے لیے دبائیں', stop: 'روکیں', del: '✕ حذف', placeholder: 'بٹن دبائیں اور بولیں...', incoming: 'ترجمہ یہاں آئے گا...', ready: 'تیار', listening: 'سن رہا ہے...' },
+  'sq': { hint: 'Flisni ngadalë dhe qartë · Trokitni tekstin për ta redaktuar', mic: 'Shtypni për të folur', stop: 'Ndalo', del: '✕ Fshi', placeholder: 'Shtypni butonin dhe flisni...', incoming: 'Përkthimi do të shfaqet këtu...', ready: 'Gati', listening: 'Po dëgjon...' },
+  'pa': { hint: 'ਹੌਲੀ ਅਤੇ ਸਾਫ਼ ਬੋਲੋ · ਸੋਧਣ ਲਈ ਟੈਕਸਟ ਤੇ ਟੈਪ ਕਰੋ', mic: 'ਬੋਲਣ ਲਈ ਦਬਾਓ', stop: 'ਰੋਕੋ', del: '✕ ਮਿਟਾਓ', placeholder: 'ਬਟਨ ਦਬਾਓ ਅਤੇ ਬੋਲੋ...', incoming: 'ਅਨੁਵਾਦ ਇੱਥੇ ਦਿਖਾਈ ਦੇਵੇਗਾ...', ready: 'ਤਿਆਰ', listening: 'ਸੁਣ ਰਿਹਾ ਹੈ...' },
+  'ne': { hint: 'बिस्तारै र स्पष्ट बोल्नुहोस् · सम्पादन गर्न पाठमा ट्याप गर्नुहोस्', mic: 'बोल्न थिच्नुहोस्', stop: 'रोक्नुहोस्', del: '✕ मेटाउनुहोस्', placeholder: 'बटन थिच्नुहोस् र बोल्नुहोस्...', incoming: 'अनुवाद यहाँ देखिनेछ...', ready: 'तयार', listening: 'सुन्दैछ...' }
 };
 
 
@@ -638,6 +645,22 @@ function goHome() {
   showScreen('screenSetup');
 }
 
+
+function toggleIndustry() {
+  const grid = document.getElementById('industryGrid');
+  const arrow = document.getElementById('industryArrow');
+  const isOpen = grid.style.display !== 'none';
+  grid.style.display = isOpen ? 'none' : 'grid';
+  arrow.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+
+function selectIndustryAndClose(el) {
+  selectIndustry(el);
+  const label = el.querySelector('[style*="font-weight:600"]')?.textContent || el.dataset.industry;
+  const icon = el.querySelector('[style*="font-size:20px"]')?.textContent || '';
+  document.getElementById('industrySelected').textContent = icon + ' ' + label;
+  toggleIndustry();
+}
 
 let selectedIndustry = 'Βιομηχανία / Παραγωγή';
 
@@ -714,6 +737,12 @@ const PAIRS = {
     B: { code: 'pa-IN', name: 'Punjabi', flag: '🇮🇳', whisper: 'pa', tts: 'shimmer', micLabel: 'ਮੈਂ ਪੰਜਾਬੀ ਬੋਲ ਰਿਹਾ ਹਾਂ' },
     promptAtoB: 'Translate the Greek text to Punjabi (Gurmukhi script). Reply ONLY with the translation, nothing else.',
     promptBtoA: 'Translate the Punjabi text to Greek. Reply ONLY with the translation, nothing else.'
+  },
+  'el-ne': {
+    A: { code: 'el-GR', name: 'Ελληνικά', flag: '🇬🇷', whisper: 'el', tts: 'echo', micLabel: 'Μιλάω Ελληνικά' },
+    B: { code: 'ne-NP', name: 'Νεπαλικά', flag: '🇳🇵', whisper: 'ne', tts: 'shimmer', micLabel: 'म नेपाली बोल्छु' },
+    promptAtoB: 'Translate the Greek text to Nepali. Reply ONLY with the translation, nothing else.',
+    promptBtoA: 'Translate the Nepali text to Greek. Reply ONLY with the translation, nothing else.'
   },
   'en-pa': {
     A: { code: 'en-US', name: 'Αγγλικά', flag: '🇬🇧', whisper: 'en', tts: 'echo', micLabel: 'I am speaking English' },
@@ -856,6 +885,8 @@ function startCall() {
   document.getElementById('myTranscript').innerHTML = '<span class="placeholder">' + ui.placeholder + '</span>';
   document.getElementById('incomingText').innerHTML = '<span class="placeholder">' + ui.incoming + '</span>';
   document.getElementById('deleteBtn').textContent = ui.del;
+  document.getElementById('transcriptHint').textContent = ui.hint || '';
+  document.getElementById('transcriptHint').style.display = 'block';
   document.getElementById('deleteBtn').style.display = 'none';
   document.getElementById('sendBtn').style.display = 'none';
   document.getElementById('editHint').style.display = 'none';

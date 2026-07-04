@@ -205,10 +205,11 @@ const server = createServer((req, res) => {
   // Login page
   if (req.url === '/login') {
     try {
+      const content = fs.readFileSync(path.join(__dirname, 'login.html'));
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-      res.end(fs.readFileSync(path.join(__dirname, 'login.html')));
+      res.end(content);
     } catch(e) {
-      res.writeHead(404); res.end('login.html not found');
+      if (!res.headersSent) { res.writeHead(404); res.end('login.html not found: ' + e.message); }
     }
     return;
   }
@@ -216,10 +217,11 @@ const server = createServer((req, res) => {
   // Main app
   if (req.url === '/' || req.url === '/index.html') {
     try {
+      const content = fs.readFileSync(path.join(__dirname, 'index.html'));
       res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-      res.end(fs.readFileSync(path.join(__dirname, 'index.html')));
+      res.end(content);
     } catch(e) {
-      res.writeHead(404); res.end('index.html not found');
+      if (!res.headersSent) { res.writeHead(404); res.end('index.html not found: ' + e.message); }
     }
     return;
   }
@@ -308,6 +310,10 @@ wss.on('connection', (ws) => {
   });
 
   ws.on('error', (err) => console.error('WS error:', err.message));
+});
+
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught exception:', err.message);
 });
 
 server.listen(PORT, () => {

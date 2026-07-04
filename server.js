@@ -569,7 +569,7 @@ const HTML_CONTENT = `<!DOCTYPE html>
     </div>
   </div>
 
-  <div class="role-title">Ποιος είσαι;</div>
+  <div class="role-title" id="whoAreYouTitle">Ποιος είσαι;</div>
   <div class="role-cards">
     <div class="role-card selected" id="cardA" onclick="selectRole('A')">
       <div class="role-icon">🇬🇷</div>
@@ -590,7 +590,7 @@ const HTML_CONTENT = `<!DOCTYPE html>
   </div>
 
 
-  <div class="role-title" style="margin-top:4px;">Τρόπος σύνδεσης</div>
+  <div class="role-title" style="margin-top:4px;" id="connTypeTitle">Τρόπος σύνδεσης</div>
   <div style="display:flex;gap:8px;margin-bottom:12px;">
     <div class="industry-card selected" id="actionHost" onclick="selectAction('host')" style="flex:1;">
       <div style="font-size:20px;">➕</div>
@@ -854,11 +854,10 @@ function applyWorkerUI(pair) {
   const cfg = PAIRS[pair];
 
   // Section title "ΠΟΙΟΣ ΕΙΣΑΙ;"
-  const roleTitles = document.querySelectorAll('.role-title');
-  roleTitles.forEach(t => {
-    if (t.textContent.trim() === 'ΠΟΙΟΣ ΕΙΣΑΙ;') t.textContent = ui.whoAreYou || 'ΠΟΙΟΣ ΕΙΣΑΙ;';
-    if (t.textContent.trim() === 'ΤΡΟΠΟΣ ΣΥΝΔΕΣΗΣ') t.textContent = ui.connectionType || 'ΤΡΟΠΟΣ ΣΥΝΔΕΣΗΣ';
-  });
+  const whoEl = document.getElementById('whoAreYouTitle');
+  const connEl = document.getElementById('connTypeTitle');
+  if (whoEl) whoEl.textContent = ui.whoAreYou || 'ΠΟΙΟΣ ΕΙΣΑΙ;';
+  if (connEl) connEl.textContent = ui.connectionType || 'ΤΡΟΠΟΣ ΣΥΝΔΕΣΗΣ';
 
   // Worker role card desc
   const workerDesc = document.getElementById('workerRoleDesc');
@@ -871,14 +870,14 @@ function applyWorkerUI(pair) {
   // Action cards
   const actionJoin = document.querySelector('#actionJoin');
   const actionHost = document.querySelector('#actionHost');
-  if (actionJoin) {
-    actionJoin.querySelector('div div:first-child').textContent = ui.joinLabel || 'Σύνδεση';
-    actionJoin.querySelector('div div:last-child').textContent = ui.joinSub || 'Έχω κωδικό';
-  }
-  if (actionHost) {
-    actionHost.querySelector('div div:first-child').textContent = ui.hostLabel || 'Νέα συνομιλία';
-    actionHost.querySelector('div div:last-child').textContent = ui.hostSub || 'Δημιουργώ κωδικό';
-  }
+  const joinTitleEl = document.getElementById('joinTitle');
+  const joinSubEl = document.getElementById('joinSub');
+  const hostTitleEl = document.getElementById('hostTitle');
+  const hostSubEl = document.getElementById('hostSub');
+  if (joinTitleEl) joinTitleEl.textContent = ui.joinLabel || 'Σύνδεση';
+  if (joinSubEl) joinSubEl.textContent = ui.joinSub || 'Έχω κωδικό';
+  if (hostTitleEl) hostTitleEl.textContent = ui.hostLabel || 'Νέα συνομιλία';
+  if (hostSubEl) hostSubEl.textContent = ui.hostSub || 'Δημιουργώ κωδικό';
 
   // Start button
   const startBtn = document.getElementById('startBtn');
@@ -895,24 +894,20 @@ function applyWorkerUI(pair) {
 
 function resetToGreekUI() {
   // Reset all UI back to Greek when Greek role selected
-  document.querySelectorAll('.role-title').forEach(t => {
-    if (t.id !== 'industryTitle') {
-      if (t.textContent.includes('ΕΙΣΑΙ') || t.textContent.includes('ARE') || t.textContent.includes('आप') || t.textContent.includes('WHO')) 
-        t.textContent = 'ΠΟΙΟΣ ΕΙΣΑΙ;';
-      if (t.textContent.includes('ΣΥΝΔ') || t.textContent.includes('CONNECT') || t.textContent.includes('जोड़')) 
-        t.textContent = 'ΤΡΟΠΟΣ ΣΥΝΔΕΣΗΣ';
-    }
-  });
+  const whoR = document.getElementById('whoAreYouTitle');
+  const connR = document.getElementById('connTypeTitle');
+  if (whoR) whoR.textContent = 'ΠΟΙΟΣ ΕΙΣΑΙ;';
+  if (connR) connR.textContent = 'ΤΡΟΠΟΣ ΣΥΝΔΕΣΗΣ';
   const actionJoin = document.querySelector('#actionJoin');
   const actionHost = document.querySelector('#actionHost');
-  if (actionJoin) {
-    actionJoin.querySelector('div div:first-child').textContent = 'Σύνδεση';
-    actionJoin.querySelector('div div:last-child').textContent = 'Έχω κωδικό';
-  }
-  if (actionHost) {
-    actionHost.querySelector('div div:first-child').textContent = 'Νέα συνομιλία';
-    actionHost.querySelector('div div:last-child').textContent = 'Δημιουργώ κωδικό';
-  }
+  const jt = document.getElementById('joinTitle');
+  const js = document.getElementById('joinSub');
+  const ht = document.getElementById('hostTitle');
+  const hs = document.getElementById('hostSub');
+  if (jt) jt.textContent = 'Σύνδεση';
+  if (js) js.textContent = 'Έχω κωδικό';
+  if (ht) ht.textContent = 'Νέα συνομιλία';
+  if (hs) hs.textContent = 'Δημιουργώ κωδικό';
   const startBtn = document.getElementById('startBtn');
   if (startBtn) startBtn.textContent = myAction === 'join' ? 'Σύνδεση' : 'Δημιουργία συνομιλίας';
   const codeLabel = document.querySelector('.join-label');
@@ -1630,7 +1625,7 @@ function pickMode(mode) {
     <button class="lang-btn" data-pair="en-pa" onclick="vadSetPair('en-pa')">🇬🇧 🇮🇳 Punjabi</button>
   </div>
 
-  <div class="role-title">Ποιος είσαι;</div>
+  <div class="role-title" id="whoAreYouTitle">Ποιος είσαι;</div>
   <div class="role-cards">
     <div class="role-card selected" id="vadCardA" onclick="vadSelectRole('A')">
       <div class="role-icon">🇬🇷</div>

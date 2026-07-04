@@ -5,19 +5,153 @@ const { join } = require('path');
 
 const PORT = process.env.PORT || 3000;
 
-// Serve the HTML app
+const https = require('https');
+const OPENAI_KEY = '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';
+
+const OPENAI_KEY_UNUSED = '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';
+
+// Helper: proxy POST to OpenAI
+function proxyOpenAI(path, body, res) {
+  const data = JSON.stringify(body);
+  const options = {
+    hostname: 'api.openai.com',
+    path: path,
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + OPENAI_KEY,
+      'Content-Type': 'application/json',
+      'Content-Length': Buffer.byteLength(data)
+    }
+  };
+  const req = https.request(options, (apiRes) => {
+    res.writeHead(apiRes.statusCode, {
+      'Content-Type': apiRes.headers['content-type'] || 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    });
+    apiRes.pipe(res);
+  });
+  req.on('error', (e) => {
+    res.writeHead(500); res.end(JSON.stringify({ error: e.message }));
+  });
+  req.write(data);
+  req.end();
+}
+
+// Helper: proxy multipart (Whisper STT)
+function proxyWhisper(reqBody, contentType, res) {
+  const options = {
+    hostname: 'api.openai.com',
+    path: '/v1/audio/transcriptions',
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + OPENAI_KEY,
+      'Content-Type': contentType,
+      'Content-Length': reqBody.length
+    }
+  };
+  const apiReq = https.request(options, (apiRes) => {
+    res.writeHead(apiRes.statusCode, {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    });
+    apiRes.pipe(res);
+  });
+  apiReq.on('error', (e) => {
+    res.writeHead(500); res.end(JSON.stringify({ error: e.message }));
+  });
+  apiReq.write(reqBody);
+  apiReq.end();
+}
+
+// Helper: proxy TTS (binary audio)
+function proxyTTS(body, res) {
+  const data = JSON.stringify(body);
+  const options = {
+    hostname: 'api.openai.com',
+    path: '/v1/audio/speech',
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + OPENAI_KEY,
+      'Content-Type': 'application/json',
+      'Content-Length': Buffer.byteLength(data)
+    }
+  };
+  const req = https.request(options, (apiRes) => {
+    res.writeHead(apiRes.statusCode, {
+      'Content-Type': 'audio/mpeg',
+      'Access-Control-Allow-Origin': '*'
+    });
+    apiRes.pipe(res);
+  });
+  req.on('error', (e) => {
+    res.writeHead(500); res.end(JSON.stringify({ error: e.message }));
+  });
+  req.write(data);
+  req.end();
+}
+
+// Serve the HTML app + proxy routes
 const server = createServer((req, res) => {
-  if (req.url === '/' || req.url === '/index.html') {
-    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-    // HTML is embedded directly — no file system needed
-    res.end(HTML_CONTENT);
-  } else if (req.url === '/health') {
+  // CORS preflight
+  if (req.method === 'OPTIONS') {
+    res.writeHead(204, {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+    });
+    res.end();
+    return;
+  }
+
+  // Proxy: Translation (GPT-4o)
+  if (req.method === 'POST' && req.url === '/api/translate') {
+    let body = '';
+    req.on('data', d => body += d);
+    req.on('end', () => {
+      try { proxyOpenAI('/v1/chat/completions', JSON.parse(body), res); }
+      catch(e) { res.writeHead(400); res.end(JSON.stringify({ error: e.message })); }
+    });
+    return;
+  }
+
+  // Proxy: TTS
+  if (req.method === 'POST' && req.url === '/api/tts') {
+    let body = '';
+    req.on('data', d => body += d);
+    req.on('end', () => {
+      try { proxyTTS(JSON.parse(body), res); }
+      catch(e) { res.writeHead(400); res.end(JSON.stringify({ error: e.message })); }
+    });
+    return;
+  }
+
+  // Proxy: Whisper STT
+  if (req.method === 'POST' && req.url === '/api/stt') {
+    const chunks = [];
+    req.on('data', d => chunks.push(d));
+    req.on('end', () => {
+      const buf = Buffer.concat(chunks);
+      proxyWhisper(buf, req.headers['content-type'], res);
+    });
+    return;
+  }
+
+  // Health check
+  if (req.url === '/health') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ status: 'ok', rooms: Object.keys(rooms).length }));
-  } else {
-    res.writeHead(404);
-    res.end('Not found');
+    return;
   }
+
+  // Serve HTML app
+  if (req.url === '/' || req.url === '/index.html') {
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+    res.end(HTML_CONTENT);
+    return;
+  }
+
+  res.writeHead(404);
+  res.end('Not found');
 });
 
 const wss = new WebSocketServer({ server });
@@ -533,7 +667,7 @@ function isGarbage(text) {
   return GARBAGE_PATTERNS.some(p => p.test(text.trim()));
 }
 
-const OPENAI_KEY = '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';
+const OPENAI_KEY_UNUSED = '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';
 const WS_URL = 'wss://translate-ph1l.onrender.com';
 
 const PAIRS = {

@@ -595,15 +595,15 @@ const HTML_CONTENT = `<!DOCTYPE html>
     <div class="industry-card selected" id="actionHost" onclick="selectAction('host')" style="flex:1;">
       <div style="font-size:20px;">➕</div>
       <div>
-        <div style="font-size:13px;font-weight:600;">Νέα συνομιλία</div>
-        <div style="font-size:11px;color:var(--text-dim);">Δημιουργώ κωδικό</div>
+        <div id="hostTitle" style="font-size:13px;font-weight:600;">Νέα συνομιλία</div>
+        <div id="hostSub" style="font-size:11px;color:var(--text-dim);">Δημιουργώ κωδικό</div>
       </div>
     </div>
     <div class="industry-card" id="actionJoin" onclick="selectAction('join')" style="flex:1;">
       <div style="font-size:20px;">🔗</div>
       <div>
-        <div style="font-size:13px;font-weight:600;">Σύνδεση</div>
-        <div style="font-size:11px;color:var(--text-dim);">Έχω κωδικό</div>
+        <div id="joinTitle" style="font-size:13px;font-weight:600;">Σύνδεση</div>
+        <div id="joinSub" style="font-size:11px;color:var(--text-dim);">Έχω κωδικό</div>
       </div>
     </div>
   </div>
